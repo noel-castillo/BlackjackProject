@@ -107,13 +107,13 @@ public class BlackjackApp {
 			for (Card card : game.get(c)) {
 				value += card.getValue();
 			}
-			if(value == 21) {
-				if(c > 0) {
+			if (value == 21) {
+				if (c > 0) {
 					System.out.println("Player " + c + " got a blackjack!");
 				} else {
 					System.out.println("Dealer got a blackjack!");
 				}
-				
+
 				checkWinner();
 			}
 		}
@@ -121,14 +121,12 @@ public class BlackjackApp {
 
 	public void printHandAndValue(int playerTurn) {
 
-		int value = 0;
 		if (playerTurn > 0) {
 			System.out.println("Player " + playerTurn + "'s Hand:");
 			for (Card card : game.get(playerTurn)) {
 				System.out.println(card);
-				value += card.getValue();
 			}
-			System.out.println("Hand value: " + value);
+			System.out.println("Hand value: " + getValue(playerTurn));
 			System.out.println("===================");
 		} else {
 			System.out.println("Dealer's Hand: ");
@@ -137,10 +135,9 @@ public class BlackjackApp {
 					System.out.println(card);
 				}
 				hidden = false;
-				value += card.getValue();
 			}
 			if (!hidden && game.get(1).size() > 0) {
-				System.out.println("Hand value: " + value);
+				System.out.println("Hand value: " + getValue(playerTurn));
 			}
 			System.out.println("========================");
 		}
@@ -160,12 +157,20 @@ public class BlackjackApp {
 			}
 		}
 		return true;
+
 	}
 
 	public int getValue(int playerTurn) {
 		int value = 0;
 		for (Card card : game.get(playerTurn)) {
 			value += card.getValue();
+		}
+		if(value > 21) {
+			for (Card card : game.get(playerTurn)) {
+				if(card.getRank() == Rank.ACE) {
+					value -= 10;
+				}
+			}
 		}
 		return value;
 	}
@@ -232,16 +237,15 @@ public class BlackjackApp {
 					winner = "The house wins!";
 				}
 				draw = 0;
-			} else if(getValue(c) == highest) {
+			} else if (getValue(c) == highest) {
 				draw++;
 			}
 		}
-		if(draw == 0) {
-		System.out.println(winner);
+		if (draw == 0) {
+			System.out.println(winner);
 		} else {
 			System.out.println("Push! There is no winner.");
 		}
-		
 		proceed();
 	}
 }

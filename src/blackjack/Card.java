@@ -49,4 +49,21 @@ public class Card {
 			return false;
 		return true;
 	}
+
+	public Rank getRank() {
+		return this.rank;
+	}
+
+	public void setRank(Rank rank) {
+		this.rank = rank;
+	}
+
+	public Suit getSuit() {
+		return this.suit;
+	}
+
+	public void setSuit(Suit suit) {
+		this.suit = suit;
+	}
+
 }
