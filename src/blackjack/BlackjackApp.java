@@ -208,7 +208,7 @@ public class BlackjackApp {
 
 		printHandAndValue(0);
 		for (int c = 1; c <= numberOfPlayers; c++) {
-			if (getValue(0) < getValue(c) && getValue(0) < 17) {
+			if (getValue(0) < getValue(c) && getValue(0) < 17 && getValue(c) < 21) {
 				System.out.println("Dealer HITS!");
 				Card card = deck.dealCard();
 				game.get(0).add(card);
