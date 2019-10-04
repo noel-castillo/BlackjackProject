@@ -1,6 +1,6 @@
-## Jet Project
+## Blackjack Project
 
-### Week 3 Homework Project for Skill Distillery
+### Week 4 Homework Project for Skill Distillery
 
 ### Overview
 
