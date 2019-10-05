@@ -20,19 +20,9 @@ public class Deck {
 
 //	M E T H O D S 
 
-	public List<Card> createNewDeck() {
+	public List<Card> createNewDeck(int numOfDecks) {
 		deck = new ArrayList<>();
-		for (Suit s : Suit.values()) {
-			for (Rank r : Rank.values()) {
-				deck.add(new Card(r, s));
-			}
-		}
-		return deck;
-	}
-
-	public List<Card> createNewMultiShoeDeck() {
-		deck = new ArrayList<>();
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < numOfDecks; i++) {
 			for (Suit s : Suit.values()) {
 				for (Rank r : Rank.values()) {
 					deck.add(new Card(r, s));
@@ -58,16 +48,24 @@ public class Deck {
 
 		System.out.println("Select deck type:");
 		System.out.println("1: Standard single deck.");
-		System.out.println("2. Multideck shoe (4 decks).");
+		System.out.println("2. Multideck shoe (2 decks).");
+		System.out.println("3. Multideck shoe (4 decks).");
+		System.out.println("4. Multideck shoe (8 decks).");
 		System.out.println("0. Quit.");
 		try {
 			int deckSelection = kb.nextInt();
 			switch (deckSelection) {
 			case 1:
-				deck = createNewDeck();
+				deck = createNewDeck(1);
 				break;
 			case 2:
-				deck = createNewMultiShoeDeck();
+				deck = createNewDeck(2);
+				break;
+			case 3:
+				deck = createNewDeck(4);
+				break;
+			case 4:
+				deck = createNewDeck(8);
 				break;
 			case 0:
 				System.out.println("Adios amigo!");

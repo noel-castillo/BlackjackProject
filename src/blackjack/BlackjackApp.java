@@ -24,7 +24,7 @@ public class BlackjackApp {
 		game = new HashMap<>();
 		deck = new Deck();
 		deck.deckCreation(kb);
-		System.out.println(deck.checkDeckSize());
+		System.out.println("Deck size: " + deck.checkDeckSize() + " cards.");
 	}
 
 //	M A I N 
@@ -75,7 +75,6 @@ public class BlackjackApp {
 	}
 
 	public void dealHands() {
-		deck.createNewDeck();
 		deck.shuffle();
 
 		for (int c = 0; c <= numberOfPlayers; c++) {
