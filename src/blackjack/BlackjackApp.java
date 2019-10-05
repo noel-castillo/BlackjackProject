@@ -17,13 +17,14 @@ public class BlackjackApp {
 	private int numberOfPlayers;
 	private static Scanner kb = new Scanner(System.in);
 	private static boolean hidden = true;
-
-//	C O N S T R U C T O R S
-
+	
+//	C O N S T R U C T O R 
+	
 	public BlackjackApp() {
-		deck = new Deck();
 		game = new HashMap<>();
-
+		deck = new Deck();
+		deck.deckCreation(kb);
+		System.out.println(deck.checkDeckSize());
 	}
 
 //	M A I N 
@@ -38,7 +39,7 @@ public class BlackjackApp {
 //	M E T H O D S 
 
 	public void run() {
-
+		
 		createHands();
 		dealHands();
 		playGame();
