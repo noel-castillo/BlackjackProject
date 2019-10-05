@@ -17,9 +17,9 @@ public class BlackjackApp {
 	private int numberOfPlayers;
 	private static Scanner kb = new Scanner(System.in);
 	private static boolean hidden = true;
-	
+
 //	C O N S T R U C T O R 
-	
+
 	public BlackjackApp() {
 		game = new HashMap<>();
 		deck = new Deck();
@@ -39,7 +39,7 @@ public class BlackjackApp {
 //	M E T H O D S 
 
 	public void run() {
-		
+
 		createHands();
 		dealHands();
 		playGame();
@@ -166,9 +166,9 @@ public class BlackjackApp {
 		for (Card card : game.get(playerTurn)) {
 			value += card.getValue();
 		}
-		if(value > 21) {
-			for (Card card : game.get(playerTurn)) {
-				if(card.getRank() == Rank.ACE) {
+		for (Card card : game.get(playerTurn)) {
+			if (value > 21) {
+				if (card.getRank() == Rank.ACE) {
 					value -= 10;
 				}
 			}
@@ -181,24 +181,28 @@ public class BlackjackApp {
 		for (int c = 1; c <= numberOfPlayers; c++) {
 			boolean proceed = true;
 			while (proceed) {
-				System.out.println("1. Hit");
-				System.out.println("2. Stand");
+				System.out.println("1. Hit.");
+				System.out.println("2. Stand.");
+				System.out.println("3. Display hand.");
 				System.out.print("Player " + c + " select an option >> ");
 
-				int choice = kb.nextInt();
+				String choice = kb.next();
 
 				switch (choice) {
-				case 1:
+				case "1":
 					System.out.println("Player " + c + " HITS!");
 					Card card = deck.dealCard();
 					game.get(c).add(card);
 					printHandAndValue(c);
 					proceed = checkBusted(c);
 					break;
-				case 2:
+				case "2":
 					System.out.println("Player " + c + " STANDS!");
 					System.out.println("========================");
 					proceed = false;
+					break;
+				case "3":
+					printHandAndValue(c);
 					break;
 				default:
 					System.out.println("Invalid Input.");
