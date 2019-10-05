@@ -17,7 +17,7 @@ public class BlackjackApp {
 	private int playerTurn;
 	private int numberOfPlayers;
 	private static Scanner kb = new Scanner(System.in);
-	private static boolean hidden = true;
+	private static int hidden = 0;
 
 //	C O N S T R U C T O R 
 
@@ -97,7 +97,7 @@ public class BlackjackApp {
 
 	public void dealHands() {
 		deck.shuffle();
-		hidden = true;
+		hidden = 0;
 
 		printAllChips();
 		for (int c : chips.getPlayerTurn().keySet()) {
@@ -109,8 +109,9 @@ public class BlackjackApp {
 			int balance = chips.getChipsMap().get(chips.getPlayerTurn().get(c));
 			balance += -5;
 			chips.getChipsMap().put(chips.getPlayerTurn().get(c), balance);
-			if(c != 0) {
-			System.out.println(chips.getPlayerTurn().get(c) + " bets $5.00 against the House.");
+			if (c != 0) {
+				System.out.println(chips.getPlayerTurn().get(c) + " bets $5.00 against the House.");
+				printChips(c);
 			}
 			printHandAndValue(playerTurn);
 		}
@@ -138,7 +139,6 @@ public class BlackjackApp {
 			chips.getChipsMap().put(name, 50);
 			chips.getPlayerTurn().put(c, name);
 		}
-		printAllChips();
 
 	}
 
@@ -171,12 +171,12 @@ public class BlackjackApp {
 		} else {
 			System.out.println("Dealer's Hand: ");
 			for (Card card : game.get(playerTurn)) {
-				if (!hidden) {
+				if (hidden != 0) {
 					System.out.println(card);
 				}
-				hidden = false;
+				hidden++;
 			}
-			if (!hidden && game.get(1).size() > 0) {
+			if (hidden > 2) {
 				System.out.println("Hand value: " + getValue(playerTurn));
 			}
 			System.out.println("========================");
@@ -280,7 +280,7 @@ public class BlackjackApp {
 				int balance = chips.getChipsMap().get(chips.getPlayerTurn().get(c));
 				balance += 10;
 				chips.getChipsMap().put(chips.getPlayerTurn().get(c), balance);
-				System.out.println(chips.getPlayerTurn().get(c) + " wins $10.00" );
+				System.out.println(chips.getPlayerTurn().get(c) + " wins $10.00");
 				printChips(c);
 			} else if (getValue(c) == highest && getValue(c) <= 21 && c != 0 && highest <= 21) {
 				System.out.println(chips.getPlayerTurn().get(c) + " results in PUSH against the Dealer!");
@@ -298,7 +298,7 @@ public class BlackjackApp {
 				int balance = chips.getChipsMap().get(chips.getPlayerTurn().get(c));
 				balance += 10;
 				chips.getChipsMap().put(chips.getPlayerTurn().get(c), balance);
-				System.out.println(chips.getPlayerTurn().get(c) + " wins $10.00" );
+				System.out.println(chips.getPlayerTurn().get(c) + " wins $10.00");
 				printChips(c);
 			}
 		}
@@ -308,14 +308,16 @@ public class BlackjackApp {
 	}
 
 	public void printChips(int player) {
-		System.out.println(chips.getPlayerTurn().get(player) + "'s chip count: "
-				+ chips.getChipsMap().get(chips.getPlayerTurn().get(player)));
+		System.out.println(chips.getPlayerTurn().get(player) + "'s chip count: $"
+				+ chips.getChipsMap().get(chips.getPlayerTurn().get(player)) + ".00");
 	}
 
 	public void printAllChips() {
 		System.out.println("===================");
 		for (int c : chips.getPlayerTurn().keySet()) {
-			printChips(c);
+			if (c != 0) {
+				printChips(c);
+			}
 		}
 		System.out.println("===================");
 	}
