@@ -1,17 +1,14 @@
 package blackjack;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class BlackjackApp {
 
 //	F I E L D S 
 
-	private Map<Integer, List<Card>> game = new HashMap<>();
+	private Table table = new Table();
 	private Deck deck = new Deck();
 	private Chips chips = new Chips();
 	private static Scanner kb = new Scanner(System.in);
@@ -40,7 +37,8 @@ public class BlackjackApp {
 
 	}
 
-//	proceed: Gives the user the option to proceed to another round or to send players home.
+//	proceed: Gives the user the option to proceed to another round or to send players home. Will continue
+//	to loop back to this method until next round is selected or if all players going home is selected.
 	public void proceed() {
 
 		System.out.println("\nSelect an option:");
@@ -109,7 +107,7 @@ public class BlackjackApp {
 		for (int c : chips.getPlayerTurn().keySet()) {
 			for (int i = 0; i < 2; i++) {
 				Card card = deck.dealCard();
-				game.get(c).add(card);
+				table.getCardsOnTable().get(c).add(card);
 			}
 			int balance = chips.getChipsMap().get(chips.getPlayerTurn().get(c));
 			balance += -5;
@@ -127,7 +125,7 @@ public class BlackjackApp {
 //	clearHands: Will remove all cards from each player and the Dealer's hand.
 	public void clearHands() {
 		for (int c : chips.getPlayerTurn().keySet()) {
-			game.get(c).removeAll(game.get(c));
+			table.getCardsOnTable().get(c).removeAll(table.getCardsOnTable().get(c));
 		}
 	}
 
@@ -138,11 +136,11 @@ public class BlackjackApp {
 		System.out.print("How many players? >> ");
 		int numberOfPlayers = kb.nextInt();
 
-		game.put(0, new ArrayList<>());
+		table.getCardsOnTable().put(0, new ArrayList<>());
 		chips.getChipsMap().put("Dealer", 1000000);
 		chips.getPlayerTurn().put(0, "Dealer");
 		for (int c = 1; c <= numberOfPlayers; c++) {
-			game.put(c, new ArrayList<>());
+			table.getCardsOnTable().put(c, new ArrayList<>());
 			System.out.print("Enter name of player " + c + " >>");
 			String name = kb.next();
 			chips.getChipsMap().put(name, 50);
@@ -158,7 +156,7 @@ public class BlackjackApp {
 
 		for (int c : chips.getPlayerTurn().keySet()) {
 			int value = 0;
-			for (Card card : game.get(c)) {
+			for (Card card : table.getCardsOnTable().get(c)) {
 				value += card.getValue();
 			}
 			if (value == 21) {
@@ -178,14 +176,14 @@ public class BlackjackApp {
 
 		if (player > 0) {
 			System.out.println(chips.getPlayerTurn().get(player) + "'s Hand:");
-			for (Card card : game.get(player)) {
+			for (Card card : table.getCardsOnTable().get(player)) {
 				System.out.println(card);
 			}
 			System.out.println("Hand value: " + getValue(player));
 			System.out.println("===================");
 		} else {
 			System.out.println("Dealer's Hand: ");
-			for (Card card : game.get(player)) {
+			for (Card card : table.getCardsOnTable().get(player)) {
 				if (hidden != 0) {
 					System.out.println(card);
 				}
@@ -220,10 +218,10 @@ public class BlackjackApp {
 //	their hand's value is below 21. Meaning a hand of 2 ACES will yield the value of 12. 
 	public int getValue(int player) {
 		int value = 0;
-		for (Card card : game.get(player)) {
+		for (Card card : table.getCardsOnTable().get(player)) {
 			value += card.getValue();
 		}
-		for (Card card : game.get(player)) {
+		for (Card card : table.getCardsOnTable().get(player)) {
 			if (value > 21) {
 				if (card.getRank() == Rank.ACE) {
 					value -= 10;
@@ -236,7 +234,7 @@ public class BlackjackApp {
 	public void playGame() {
 
 		for (int c : chips.getPlayerTurn().keySet()) {
-			if (c != 0 && getValue(c) != 21 && game.get(c).size() >= 2) {
+			if (c != 0 && getValue(c) != 21 && table.getCardsOnTable().get(c).size() >= 2) {
 				boolean proceed = true;
 				while (proceed) {
 					System.out.println("1. Hit.");
@@ -251,7 +249,7 @@ public class BlackjackApp {
 					case "1":
 						System.out.println(chips.getPlayerTurn().get(c) + " HITS!");
 						Card card = deck.dealCard();
-						game.get(c).add(card);
+						table.getCardsOnTable().get(c).add(card);
 						printHandAndValue(c);
 						proceed = checkBusted(c);
 						break;
@@ -279,7 +277,7 @@ public class BlackjackApp {
 			if (getValue(0) < getValue(c) && getValue(0) < 17 && getValue(c) < 21) {
 				System.out.println("Dealer HITS!");
 				Card card = deck.dealCard();
-				game.get(0).add(card);
+				table.getCardsOnTable().get(0).add(card);
 				printHandAndValue(0);
 				checkBusted(0);
 			} else if (c == chips.getPlayerTurn().size() && getValue(0) <= 21) {
