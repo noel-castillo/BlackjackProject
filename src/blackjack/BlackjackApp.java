@@ -14,7 +14,7 @@ public class BlackjackApp {
 	private static Scanner kb = new Scanner(System.in);
 
 //	int hidden: Facilitates when the dealer displays their cards and hand value.
-	private static int hidden = 0;
+	private int hidden = 0;
 
 //	M A I N 
 
