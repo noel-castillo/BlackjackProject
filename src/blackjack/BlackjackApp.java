@@ -95,7 +95,8 @@ public class BlackjackApp {
 		}
 	}
 
-//	dealHands(): Will shuffle the deck, reset hidden variable, print current chip count for all players.
+//	dealHands(): Will check deck for low card count and create a new deck if necessary.
+//	Will shuffle the deck, reset hidden variable, print current chip count for all players.
 //	Then deal 2 cards to each player and the Dealer. Each player's chip count will be reduced by 5 to simulate buying
 //	into a round. Each player's individual chip count will be displayed once they buy in. 
 //	Then every hand will be checked for a Blackjack winner.
