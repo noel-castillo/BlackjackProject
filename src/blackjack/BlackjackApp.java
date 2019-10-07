@@ -134,8 +134,9 @@ public class BlackjackApp {
 		}
 	}
 
-//	The importance of createHands is in the creation of a 'player name' for the amount of players prompted to the user
-//	Each player name will be made into a key for the chipsMap in order to record their ongoing integer value that represents chips
+//	createHands: The creation of a 'player name' for the amount of players prompted to the user
+//	will be made into a key that is used to track chip count for that specific player. This initial setup
+//	allows the game to begin with set of specific players. Additional players cannot be added past this setup.
 	private void createHands() {
 		System.out.print("How many players? >> ");
 		numberOfPlayers = kb.nextInt();
@@ -153,10 +154,9 @@ public class BlackjackApp {
 
 	}
 
-//	Program needs a separate checkBlackjack method in order to call it at an opportune time.
-//	Within this method is an if statement where if the dealer gets a Blackjack, then the Dealer
-//	wins and the round is over. If a player gets a Blackjack, the round cannot be over right away
-//	because there may still be other players competing against the Dealer.
+//	checkBlackJack: Checks for any players or the Dealer having Blackjack. If the Dealer has a Blackjack, then 
+//	the round is over and the Dealer wins. If any player has Blackjack, then the game will still continue but the
+//	players who got a Blackjack will not participate in the round considering that they have already won against the Dealer. 
 	public void checkBlackjack() {
 
 		for (int c : chips.getPlayerTurn().keySet()) {
@@ -174,12 +174,9 @@ public class BlackjackApp {
 		}
 	}
 
-//	printHandAndValue will display the given player's hand. If the given parameter is '0'
-//	then that indicates Dealer's hand and will take into account the variable hidden. 
-//	The if statements are set up to not display one of the Dealer's card, and not
-//	display the Dealer's hand value so to only display one of the Dealer's card in the
-//	initial display of hands. When the method is called afterwards, hidden will have a greater 
-//	value so to display all of the Dealer's cards and hand value. 
+//	printHandAndValue: will display the given player's cards and hand value. Special exception for the Dealer. The first time
+//	printHandAndValue is called in a given round with the Dealer's parameter, the Dealer will only reveal one of his cards. 
+//	Any subsequent calls to the method with the Dealer's parameters will reveal all his cards and hand value. 
 	public void printHandAndValue(int playerTurn) {
 
 		if (playerTurn > 0) {
@@ -204,9 +201,8 @@ public class BlackjackApp {
 		}
 	}
 
-//	checkBusted: The importance for checkBusted to be a boolean, is to end the player's turn if their hand's value
-//	goes over 21. They will continue to have options during their round so long as checkBusted 
-//	returns true.
+//	checkBusted: Will check if any player's hand value exceeds 21. If it does, then their round is over and the game
+//	proceeds on to the next player or Dealer. 
 	public boolean checkBusted(int playerTurn) {
 
 		int value = getValue(playerTurn);
@@ -222,7 +218,9 @@ public class BlackjackApp {
 
 	}
 
-//	getValue: Will return the value of a hand for the given integer key respective to game Map.
+//	getValue: Will return the value of a hand for the given player. If the player's hand exceeds 21, then the method
+//	will check for any ACE cards in their hands. Reducing their hand's value by 10 per ACE they have and only until 
+//	their hand's value is below 21. Meaning a hand of 2 ACES will yield the value of 12. 
 	public int getValue(int playerTurn) {
 		int value = 0;
 		for (Card card : game.get(playerTurn)) {
@@ -334,13 +332,13 @@ public class BlackjackApp {
 		proceed();
 	}
 
-//	printChips will print the chip count for an individual player taking in the integer key as a parameter to identify player
+//	printChips: Will print the chip count for an individual player based on integer key parameter.
 	public void printChips(int player) {
 		System.out.println(chips.getPlayerTurn().get(player) + "'s chip count: $"
 				+ chips.getChipsMap().get(chips.getPlayerTurn().get(player)) + ".00");
 	}
 
-//	printAllChips will iterate through the keySet for playerTurn map and print out all chip counts.
+//	printAllChips: Will iterate through the keySet for playerTurn map and print out all chip counts.
 	public void printAllChips() {
 		System.out.println("===================");
 		for (int c : chips.getPlayerTurn().keySet()) {
