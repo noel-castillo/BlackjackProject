@@ -7,11 +7,11 @@ public class Chips {
 
 //	F I E L D S 
 
-//	chipsMap: Will keep track of each player's name as a key, and the chip count respective to the player's name.
+//	Map<Str, Int> chipsMap: Will keep track of each player's name as a key, and the chip count respective to the player's name.
 //	Same name users will pose a problem to the functionality of the program. 
 	private Map<String, Integer> chipsMap;
 
-//	playerTurn: Will keep track of the player's numerical ID and the name respective to that ID. This field can be made
+//	Map<Int, Str> playerTurn: Will keep track of the player's numerical ID and the name respective to that ID. This field can be made
 //	redundant with chipsMap replacing its functionality entirely as the code gets worked on / cleaned up.
 	private Map<Integer, String> playerTurn;
 
