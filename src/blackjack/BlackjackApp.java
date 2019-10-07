@@ -162,6 +162,7 @@ public class BlackjackApp {
 			if (value == 21) {
 				System.out.println(chips.getPlayerTurn().get(c) + " got a blackjack!");
 				if (c == 0) {
+					printHandAndValue(0);
 					clearHands();
 					proceed();
 				}
@@ -286,9 +287,9 @@ public class BlackjackApp {
 				checkBusted(0);
 			}
 		}
-			if (getValue(0) >= 17 && getValue(0) <= 21) {
-				System.out.println("Dealer STANDS!");
-			}
+		if (getValue(0) >= 17 && getValue(0) <= 21) {
+			System.out.println("Dealer STANDS!");
+		}
 
 		checkWinner();
 
