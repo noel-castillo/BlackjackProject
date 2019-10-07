@@ -100,7 +100,15 @@ public class BlackjackApp {
 //	into a round. Each player's individual chip count will be displayed once they buy in. 
 //	Then every hand will be checked for a Blackjack winner.
 	public void dealHands() {
+		if (deck.checkDeckSize() < (chips.getPlayerTurn().keySet().size() * 5)) {
+			System.out.println("Deck is running low.");
+			System.out.println("Creating new deck.");
+			deck.deckCreation(kb);
+			System.out.println("Deck size: " + deck.checkDeckSize() + " cards.");
+		}
+		
 		deck.shuffle();
+		
 		hidden = 0;
 
 		printAllChips();
@@ -139,6 +147,7 @@ public class BlackjackApp {
 		table.getCardsOnTable().put(0, new ArrayList<>());
 		chips.getChipsMap().put("Dealer", 1000000);
 		chips.getPlayerTurn().put(0, "Dealer");
+		
 		for (int c = 1; c <= numberOfPlayers; c++) {
 			table.getCardsOnTable().put(c, new ArrayList<>());
 			System.out.print("Enter name of player " + c + " >>");
@@ -159,6 +168,7 @@ public class BlackjackApp {
 			for (Card card : table.getCardsOnTable().get(c)) {
 				value += card.getValue();
 			}
+			
 			if (value == 21) {
 				System.out.println(chips.getPlayerTurn().get(c) + " got a blackjack!");
 				if (c == 0) {
