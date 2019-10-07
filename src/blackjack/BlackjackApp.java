@@ -14,8 +14,6 @@ public class BlackjackApp {
 	private Map<Integer, List<Card>> game = new HashMap<>();
 	private Deck deck = new Deck();
 	private Chips chips = new Chips();
-	private int playerTurn;
-	private int numberOfPlayers;
 	private static Scanner kb = new Scanner(System.in);
 
 //	The purpose of the variable hidden is to facilitate when the dealer displays their cards and hand value.
@@ -109,10 +107,9 @@ public class BlackjackApp {
 
 		printAllChips();
 		for (int c : chips.getPlayerTurn().keySet()) {
-			playerTurn = c;
 			for (int i = 0; i < 2; i++) {
 				Card card = deck.dealCard();
-				game.get(playerTurn).add(card);
+				game.get(c).add(card);
 			}
 			int balance = chips.getChipsMap().get(chips.getPlayerTurn().get(c));
 			balance += -5;
@@ -121,7 +118,7 @@ public class BlackjackApp {
 				System.out.println(chips.getPlayerTurn().get(c) + " bets $5.00 against the House.");
 				printChips(c);
 			}
-			printHandAndValue(playerTurn);
+			printHandAndValue(c);
 		}
 
 		checkBlackjack();
@@ -139,7 +136,7 @@ public class BlackjackApp {
 //	allows the game to begin with set of specific players. Additional players cannot be added past this setup.
 	private void createHands() {
 		System.out.print("How many players? >> ");
-		numberOfPlayers = kb.nextInt();
+		int numberOfPlayers = kb.nextInt();
 
 		game.put(0, new ArrayList<>());
 		chips.getChipsMap().put("Dealer", 1000000);
@@ -177,25 +174,25 @@ public class BlackjackApp {
 //	printHandAndValue: will display the given player's cards and hand value. Special exception for the Dealer. The first time
 //	printHandAndValue is called in a given round with the Dealer's parameter, the Dealer will only reveal one of his cards. 
 //	Any subsequent calls to the method with the Dealer's parameters will reveal all his cards and hand value. 
-	public void printHandAndValue(int playerTurn) {
+	public void printHandAndValue(int player) {
 
-		if (playerTurn > 0) {
-			System.out.println(chips.getPlayerTurn().get(playerTurn) + "'s Hand:");
-			for (Card card : game.get(playerTurn)) {
+		if (player > 0) {
+			System.out.println(chips.getPlayerTurn().get(player) + "'s Hand:");
+			for (Card card : game.get(player)) {
 				System.out.println(card);
 			}
-			System.out.println("Hand value: " + getValue(playerTurn));
+			System.out.println("Hand value: " + getValue(player));
 			System.out.println("===================");
 		} else {
 			System.out.println("Dealer's Hand: ");
-			for (Card card : game.get(playerTurn)) {
+			for (Card card : game.get(player)) {
 				if (hidden != 0) {
 					System.out.println(card);
 				}
 				hidden++;
 			}
 			if (hidden > 2) {
-				System.out.println("Hand value: " + getValue(playerTurn));
+				System.out.println("Hand value: " + getValue(player));
 			}
 			System.out.println("========================");
 		}
@@ -203,13 +200,13 @@ public class BlackjackApp {
 
 //	checkBusted: Will check if any player's hand value exceeds 21. If it does, then their round is over and the game
 //	proceeds on to the next player or Dealer. 
-	public boolean checkBusted(int playerTurn) {
+	public boolean checkBusted(int player) {
 
-		int value = getValue(playerTurn);
+		int value = getValue(player);
 		if (value > 21) {
-			System.out.println(chips.getPlayerTurn().get(playerTurn) + " BUSTED!");
+			System.out.println(chips.getPlayerTurn().get(player) + " BUSTED!");
 			System.out.println("========================");
-			if (playerTurn != 0) {
+			if (player != 0) {
 				return false;
 			}
 		}
@@ -221,12 +218,12 @@ public class BlackjackApp {
 //	getValue: Will return the value of a hand for the given player. If the player's hand exceeds 21, then the method
 //	will check for any ACE cards in their hands. Reducing their hand's value by 10 per ACE they have and only until 
 //	their hand's value is below 21. Meaning a hand of 2 ACES will yield the value of 12. 
-	public int getValue(int playerTurn) {
+	public int getValue(int player) {
 		int value = 0;
-		for (Card card : game.get(playerTurn)) {
+		for (Card card : game.get(player)) {
 			value += card.getValue();
 		}
-		for (Card card : game.get(playerTurn)) {
+		for (Card card : game.get(player)) {
 			if (value > 21) {
 				if (card.getRank() == Rank.ACE) {
 					value -= 10;
