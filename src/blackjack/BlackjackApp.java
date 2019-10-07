@@ -11,24 +11,15 @@ public class BlackjackApp {
 
 //	F I E L D S 
 
-	private Map<Integer, List<Card>> game;
-	private Deck deck;
-	private Chips chips;
+	private Map<Integer, List<Card>> game = new HashMap<>();
+	private Deck deck = new Deck();
+	private Chips chips = new Chips();
 	private int playerTurn;
 	private int numberOfPlayers;
 	private static Scanner kb = new Scanner(System.in);
+
+//	The purpose of the variable hidden is to facilitate when the dealer displays their cards and hand value.
 	private static int hidden = 0;
-
-//	C O N S T R U C T O R 
-
-	public BlackjackApp() {
-		game = new HashMap<>();
-		chips = new Chips();
-		deck = new Deck();
-		deck.deckCreation(kb);
-		System.out.println("Deck size: " + deck.checkDeckSize() + " cards.");
-		createHands();
-	}
 
 //	M A I N 
 
@@ -43,11 +34,17 @@ public class BlackjackApp {
 
 	public void run() {
 
+		deck.deckCreation(kb);
+		System.out.println("Deck size: " + deck.checkDeckSize() + " cards.");
+		createHands();
 		dealHands();
 		playGame();
 
 	}
 
+//	proceed method is to give the user the option to proceed to 
+//	another iteration of the program round.
+//	Or to call the headHome method. 
 	public void proceed() {
 
 		System.out.println("\nSelect an option:");
@@ -57,11 +54,12 @@ public class BlackjackApp {
 			int proceed = kb.nextInt();
 			switch (proceed) {
 			case 1:
-				run();
+				dealHands();
+				playGame();
 				break;
 			case 2:
 				headHome();
-				run();
+				proceed();
 				break;
 			default:
 				System.out.println("Invalid input");
@@ -75,6 +73,9 @@ public class BlackjackApp {
 		}
 	}
 
+//	headHome method will display all current players by the key element in the playerTurn map
+//	which is an integer with their entered name being the value. 
+//	User can then select the appropriate player and the key & value will then be removed from the map.
 	public void headHome() {
 		System.out.println("Who is heading home?");
 		for (int p : chips.getPlayerTurn().keySet()) {
@@ -95,6 +96,11 @@ public class BlackjackApp {
 		}
 	}
 
+//	dealHands: Will reset the integer variable hidden to hide the Dealer's initial card and hand value.
+//	Will also reduce the value for each key in the chipsMap by 5 as the value represents chip count. 
+//	It will also call a shuffle method to the deck, print out the hand and value for each player, and
+//	call the checkBlackjack method after displaying all hands and card values, which is important
+//	to be done afterwards for the fluidity of the game. 
 	public void dealHands() {
 		deck.shuffle();
 		hidden = 0;
@@ -119,12 +125,15 @@ public class BlackjackApp {
 		checkBlackjack();
 	}
 
+//	clearHands method will remove all values of List<Card> for the entire keySet of Map<Integer, List<Card>> game
 	public void clearHands() {
 		for (int c : chips.getPlayerTurn().keySet()) {
 			game.get(c).removeAll(game.get(c));
 		}
 	}
 
+//	The importance of createHands is in the creation of a 'player name' for the amount of players prompted to the user
+//	Each player name will be made into a key for the chipsMap in order to record their ongoing integer value that represents chips
 	private void createHands() {
 		System.out.print("How many players? >> ");
 		numberOfPlayers = kb.nextInt();
@@ -142,6 +151,10 @@ public class BlackjackApp {
 
 	}
 
+//	Program needs a separate checkBlackjack method in order to call it at an opportune time.
+//	Within this method is an if statement where if the dealer gets a Blackjack, then the Dealer
+//	wins and the round is over. If a player gets a Blackjack, the round cannot be over right away
+//	because there may still be other players competing against the Dealer.
 	public void checkBlackjack() {
 
 		for (int c : chips.getPlayerTurn().keySet()) {
@@ -183,6 +196,9 @@ public class BlackjackApp {
 		}
 	}
 
+//	checkBusted: The importance for checkBusted to be a boolean, is to end the player's turn if their hand's value
+//	goes over 21. They will continue to have options during their round so long as checkBusted 
+//	returns true.
 	public boolean checkBusted(int playerTurn) {
 
 		int value = getValue(playerTurn);
@@ -198,6 +214,7 @@ public class BlackjackApp {
 
 	}
 
+//	getValue: Will return the value of a hand for the given integer key respective to game Map.
 	public int getValue(int playerTurn) {
 		int value = 0;
 		for (Card card : game.get(playerTurn)) {
@@ -271,6 +288,8 @@ public class BlackjackApp {
 
 	}
 
+//	checkWinner: There is a set order of what constitutes a win or a loss. The series of if - else if
+//	will select the appropriate conditions for every player vs the Dealer. 
 	public void checkWinner() {
 
 		int highest = getValue(0);
@@ -307,11 +326,13 @@ public class BlackjackApp {
 		proceed();
 	}
 
+//	printChips will print the chip count for an individual player taking in the int key as a parameter to identify player
 	public void printChips(int player) {
 		System.out.println(chips.getPlayerTurn().get(player) + "'s chip count: $"
 				+ chips.getChipsMap().get(chips.getPlayerTurn().get(player)) + ".00");
 	}
 
+//	printAllChips will iterate through the keySet for playerTurn map and print out all chip counts.
 	public void printAllChips() {
 		System.out.println("===================");
 		for (int c : chips.getPlayerTurn().keySet()) {
