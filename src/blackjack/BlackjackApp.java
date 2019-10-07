@@ -274,6 +274,8 @@ public class BlackjackApp {
 			}
 		}
 
+//		Dealer will hit while their hand value is below a player's hand value and below 17, but not if
+//		the player's hand is a BUSTED hand. 
 		printHandAndValue(0);
 		for (int c : chips.getPlayerTurn().keySet()) {
 			while (getValue(0) < getValue(c) && getValue(0) < 17 && getValue(c) < 21) {
