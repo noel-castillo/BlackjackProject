@@ -4,7 +4,7 @@
 
 ### Overview
 
-User is prompted whether to use a single deck of cards, or a multishoe deck with variations of 2, 4, or 8 decks.
+User is prompted whether to use a single deck of cards, or a multi-shoe deck with variations of 2, 4, or 8 decks.
 
 User is then prompted to enter the number of players proceeded by entering the names for each player.
 
@@ -22,8 +22,10 @@ Game will continue looping until all players go home.
 
 ### Lessons Learned
 
- In the enum Rank, ACE was given the int value of 11. Changing that value once in my program to convert from a 'hard' ace of value 11 to a 'soft' ace of value 1 per the rules of Blackjack, it would permanently chance all Rank.ACE's int value to 1. To workaround this flaw, I would decrease the value of the hand by 10 only if it is over 21 AND the hand contains a card with the Rank.ACE.
+Implementing comments to explain functionality or purpose of methods & certain variables will not only help someone in reading the code, but it aided me as the programmer in further understanding how everything worked and provided me insight in ways to better present my code and cut back on certain redundancies.
 
- The criteria for the dealer to hit or stand needs to follow quite a bit of rules. It was only through testing multiple times that I got to understand the loopholes that would cause the dealer to make an incorrect decision. Most significantly, I realized later on that if all the other players BUSTED but got high values, then the dealer would still try to beat them because the dealer's hand was lesser and below 17. This, among other loopholes, significantly prioritized the importance of testing my program very thoroughly and often. 
+Implementing classes for nouns found within the original BlackjackApp decluttered my code and helped me further understand the functionality of the code written. It also bolstered my capabilities in implementing a major change to code already written.
 
- Using two maps with a common value allowed me to assign a player name and a chip count, while maintaining
+In the enum Rank, ACE was given the int value of 11. Changing that value once in my program to convert from a 'hard' ace of value 11 to a 'soft' ace of value 1 per the rules of Blackjack, would result in permanently changing all Rank.ACE's int value to 1. To workaround this flaw, I decided to not alter the value. Instead, I would change the getValue method and implement code to decrease the value of the hand by 10 only if it is over 21 and per each card with the Rank.ACE and only until it is below 21. In the case of double ACES, the hand value would result in 12.
+
+The criteria for the dealer to hit or stand needs to follow quite a bit of rules. It was only through testing multiple times that I got to understand the loopholes that would cause the dealer to make an incorrect decision. Most significantly, I realized later on that if all the other players BUSTED but got high values, then the dealer would still try to beat them because the dealer's hand was lesser and below 17. This, among other loopholes, significantly prioritized the importance of testing my program very thoroughly and often.
