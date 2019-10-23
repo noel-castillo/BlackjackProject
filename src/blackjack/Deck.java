@@ -20,7 +20,7 @@ public class Deck {
 
 //	M E T H O D S 
 
-	public List<Card> createNewDeck(int numOfDecks) {
+	private List<Card> createNewDeck(int numOfDecks) {
 		deck = new ArrayList<>();
 		for (int i = 0; i < numOfDecks; i++) {
 			for (Suit s : Suit.values()) {
