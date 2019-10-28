@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 public class Players {
 	
+//	THIS CLASS IS NOT YET IMPLEMENTED INTO THE BLACKJACK PROJECT. 
+	
 	
 //	M E T H O D S
 

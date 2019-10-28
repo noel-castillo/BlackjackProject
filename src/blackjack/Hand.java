@@ -71,7 +71,7 @@ public class Hand {
 		}
 	}
 
-	public void clearHands() {
+	private void clearHands() {
 		for (String player : playersHand.keySet()) {
 				playersHand.get(player).removeAll(playersHand.get(player));
 		}
@@ -201,7 +201,7 @@ public class Hand {
 		clearHands();
 	}
 
-	public void checkBlackjack(Map<String, Integer> chips) {
+	private void checkBlackjack(Map<String, Integer> chips) {
 
 		for (String player : playersHand.keySet()) {
 			int value = 0;

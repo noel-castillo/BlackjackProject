@@ -10,7 +10,7 @@ public class Deck {
 
 //	F I E L D S
 
-	List<Card> deck;
+	public List<Card> deck;
 
 //	C O N S T R U C T O R S
 
