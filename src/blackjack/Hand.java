@@ -131,7 +131,7 @@ public class Hand {
 
 	}
 
-	public void checkWinner(Map<String, Integer> chips) {
+	public void checkWinningHand(Map<String, Integer> chips) {
 
 		int highest = getHandValue("Dealer");
 		for (String player : playersHand.keySet()) {
@@ -213,7 +213,7 @@ public class Hand {
 				System.out.println(player + " got a blackjack!");
 				if (player.equals("Dealer")) {
 					printHandAndValue(player);
-					checkWinner(chips);
+					checkWinningHand(chips);
 				}
 			}
 		}

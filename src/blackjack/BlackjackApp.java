@@ -22,9 +22,9 @@ public class BlackjackApp {
 		app.playGame();
 		kb.close();
 	}
-	
+
 //	C O N S T R U C T O R
-	
+
 	public BlackjackApp() {
 		System.out.println("Welcome to the Blackjack Table");
 		deck.deckCreation(kb);
@@ -35,69 +35,10 @@ public class BlackjackApp {
 
 //	M E T H O D S 
 
-
-	public void proceed() {
-
-		System.out.println("\nSelect an option:");
-		System.out.println("1. Next round.");
-		System.out.println("2. Head home.");
-		try {
-			int proceed = kb.nextInt();
-			switch (proceed) {
-			case 1:
-				hands.dealHands(deck, kb, chips.getChips());
-				playGame();
-				break;
-			case 2:
-				headHome();
-				proceed();
-				break;
-			default:
-				System.out.println("Invalid input");
-				proceed();
-				break;
-			}
-		} catch (InputMismatchException e) {
-			kb.nextLine();
-			System.out.println("Invalid input.");
-			proceed();
-		}
-	}
-
-	public void headHome() {
-		Map<Integer, String> whoToSendHome = new HashMap<>();
-		System.out.println("Who is heading home?");
-		int counter = 1;
-		for (String player : hands.getPlayersHand().keySet()) {
-			if (!player.equals("Dealer")) {
-				System.out.println(counter + ". " + player);
-			}
-			whoToSendHome.put(counter, player);
-			counter++;
-			
-		}
-		System.out.println(0 + ". All players.");
-		System.out.print(">>");
-		try {
-			int playerLeaving = kb.nextInt();
-			if (playerLeaving == 0) {
-				System.out.println("Adios amigos!");
-				kb.close();
-				System.exit(0);
-			} else {
-				System.out.println("Adios " + whoToSendHome.get(playerLeaving));
-				hands.getPlayersHand().remove(whoToSendHome.get(playerLeaving));
-			}
-		} catch (Exception e) {
-			kb.nextLine();
-			System.out.println("Invalid input");
-			proceed();
-		}
-	}
-
 	public void playGame() {
 		for (String player : hands.getPlayersHand().keySet()) {
-			if (!player.equals("Dealer") && hands.getHandValue(player) != 21 && hands.getPlayersHand().get(player).size() >= 2) {
+			if (!player.equals("Dealer") && hands.getHandValue(player) != 21
+					&& hands.getPlayersHand().get(player).size() >= 2) {
 				boolean proceed = true;
 				while (proceed) {
 					System.out.println("1. Hit.");
@@ -149,9 +90,67 @@ public class BlackjackApp {
 			System.out.println("Dealer STANDS!");
 		}
 
-		hands.checkWinner(chips.getChips());
+		hands.checkWinningHand(chips.getChips());
 		proceed();
 
 	}
 
+	public void proceed() {
+
+		System.out.println("\nSelect an option:");
+		System.out.println("1. Next round.");
+		System.out.println("2. Head home.");
+		try {
+			int proceed = kb.nextInt();
+			switch (proceed) {
+			case 1:
+				hands.dealHands(deck, kb, chips.getChips());
+				playGame();
+				break;
+			case 2:
+				headHome();
+				proceed();
+				break;
+			default:
+				System.out.println("Invalid input");
+				proceed();
+				break;
+			}
+		} catch (InputMismatchException e) {
+			kb.nextLine();
+			System.out.println("Invalid input.");
+			proceed();
+		}
+	}
+
+	public void headHome() {
+		Map<Integer, String> whoToSendHome = new HashMap<>();
+		System.out.println("Who is heading home?");
+		int counter = 1;
+		for (String player : hands.getPlayersHand().keySet()) {
+			if (!player.equals("Dealer")) {
+				System.out.println(counter + ". " + player);
+			}
+			whoToSendHome.put(counter, player);
+			counter++;
+
+		}
+		System.out.println(0 + ". All players.");
+		System.out.print(">>");
+		try {
+			int playerLeaving = kb.nextInt();
+			if (playerLeaving == 0) {
+				System.out.println("Adios amigos!");
+				kb.close();
+				System.exit(0);
+			} else {
+				System.out.println("Adios " + whoToSendHome.get(playerLeaving));
+				hands.getPlayersHand().remove(whoToSendHome.get(playerLeaving));
+			}
+		} catch (Exception e) {
+			kb.nextLine();
+			System.out.println("Invalid input");
+			proceed();
+		}
+	}
 }
