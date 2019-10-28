@@ -19,22 +19,22 @@ public class BlackjackApp {
 	public static void main(String[] args) {
 
 		BlackjackApp app = new BlackjackApp();
-		app.run();
+		app.playGame();
 		kb.close();
 	}
-
-//	M E T H O D S 
-
-	public void run() {
-
+	
+//	C O N S T R U C T O R
+	
+	public BlackjackApp() {
 		System.out.println("Welcome to the Blackjack Table");
 		deck.deckCreation(kb);
 		System.out.println("Deck size: " + deck.checkDeckSize() + " cards.");
 		hands.dealInitialHands(kb, deck, chips.getChips());
 		chips.generateChips(hands);
-		playGame();
-
 	}
+
+//	M E T H O D S 
+
 
 	public void proceed() {
 

@@ -8,7 +8,7 @@ User is prompted whether to use a single deck of cards, or a multi-shoe deck wit
 
 User is then prompted to enter the number of players proceeded by entering the names for each player.
 
-Game begins with each player's initial chip count starting at $100.00. Each round requires each player to bet $5.00 against the house. Then a hand is dealt to each player participating in the round.
+Game begins with each player's initial chip count starting at $50.00. Each round requires each player to bet $5.00 against the house. Then a hand is dealt to each player participating in the round.
 
 Players can then select from a variety of options: hit, stand, display hand, or print chip count. Selecting hit will result in a player drawing another card. If the player BUSTS, meaning their hand value is over 21, then their turn ends and they will lose the round. The game proceeds to the next player. If the player selects stand, then they maintain their current hand value and the game proceeds to the next player. Selecting display hand will print out the current player's hand. Selecting print chip count will display the current player's chip count.
 
@@ -20,7 +20,21 @@ After the game is concluded. The option is given for a player to return home and
 
 Game will continue looping until all players go home.
 
+### Technologies Used
+
+Enum classes
+
+Inheritance where a card inherits the fields and values of the rank and suit enum classes.
+
+HashMap to keep track of a specific player's hand and chip count using their name as the key.
+
+Encapsulation where the majority of the fields are set to private and can only be obtained via a getter.
+
+Loop control where the user will continue to keep playing Blackjack until they decide to no longer play.
+
 ### Lessons Learned
+
+Separating methods to correspond to a proper class based on how those classes would operate in real life makes the code easier to read and easier to implement methods at the proper locations.
 
 Implementing comments to explain functionality or purpose of methods & certain variables will not only help someone in reading the code, but it aided me as the programmer in further understanding how everything worked and provided me insight in ways to better present my code and cut back on certain redundancies.
 
